@@ -1,0 +1,6 @@
+
+docker exec dockerapp_node_1 node --version 
+docker exec dockerapp_nginx_1 nginx -v 
+docker exec dockerapp_redis_1  redis-server --version
+docker exec dockerapp_redis_1  redis-cli get visit-count
+curl http://localhost:80/?[1-20]

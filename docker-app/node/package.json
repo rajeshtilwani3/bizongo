@@ -1,0 +1,11 @@
+{
+  "name": "node",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "start": "PORT=3000 node start",
+  "dependencies": {
+    "express": "^4.12.3",
+    "redis": "^0.12.1"
+  }
+}
