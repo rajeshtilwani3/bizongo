@@ -2,4 +2,4 @@
 
 ## Question - 1 Docker app 
 
-go to the docker-app folder, and run docker-compse up command to start the containers 
+go to the docker-app folder, and run **docker-compose build** to build the images and then **docker-compose up** command to start the containers 
