@@ -1,0 +1,54 @@
+---
+- hosts: all
+  tasks: 
+  - name: install epel-release (CentOS)
+    become: true
+    yum:
+      name: "https://dl.fedoraproject.org/pub/epel/epel-release-latest-{{ ansible_distribution_major_version }}.noarch.rpm"
+      state: present
+    when: ansible_distribution == "CentOS"
+    
+  - name: Enable EPEL repo
+    become: true
+    ini_file:
+      dest: /etc/yum.repos.d/epel.repo
+      section: epel
+      option: enabled
+      value: 1
+    when: ansible_distribution == "CentOS"
+      
+  - name: install packages
+    become: true
+    package:
+      name: "{{ item }}"
+      state: present
+    vars:
+      item:
+      - htop
+      - ncdu
+      - iftop
+      - iotop
+    when: ansible_distribution == "Ubuntu" or ansible_distribution == "CentOS"
+
+  - name: copy script
+    copy:
+     src: first.sh
+     dest: /tmp/first.sh
+     mode: 0774
+
+  - name: execute  script
+    shell: /tmp/first.sh
+    register: cat_contents
+    when: ansible_distribution == "CentOS"
+
+  - name: write to file
+    copy:
+     content: "{{ cat_contents.stdout }}"
+     dest: "/tmp/output.txt"
+    when: ansible_distribution == "CentOS"
+
+  - name: Store file back on local from remote
+    fetch:
+     src: /tmp/output.txt
+     dest: /tmp/output.txt
+    when: ansible_distribution == "CentOS"
